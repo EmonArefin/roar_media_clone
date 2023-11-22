@@ -9,8 +9,14 @@ const Layout = (props) => {
 
     useEffect(()=>{
         (async()=>{
-            let res = await postCategories()
-            setCategories(res)
+            if(localStorage.getItem("categories")){
+                let res = localStorage.getItem("categories")
+                setCategories(JSON.parse(res))
+            } else{
+                let res = await postCategories();
+                setCategories(res)
+                localStorage.setItem("categories", JSON.stringify(res))
+            }
         })()
     },[])
 
